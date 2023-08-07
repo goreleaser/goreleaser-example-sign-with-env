@@ -48,9 +48,11 @@ changelog:
 
 signs:
   - cmd: cosign
+    artifacts: checksum
+    stdin: ""
     args:
       - sign-blob
-      - "--key env://COSIGN_KEY"
+      - "--key=env://COSIGN_KEY"
       - "--yes"
       - "--output-signature=${signature}"
       - "${artifact}"
