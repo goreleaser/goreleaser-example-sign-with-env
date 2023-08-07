@@ -1,0 +1,28 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  packages: write
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: sigstore/cosign-installer@v3.1.1
+
+      - uses: goreleaser/goreleaser-action@v4
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COSIGN_KEY: ${{ secrets.COSIGN_KEY }}
